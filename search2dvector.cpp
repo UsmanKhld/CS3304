@@ -1,48 +1,64 @@
 #include<iostream>
 #include<vector>
+#include<string>
 
 using namespace std;
 
-class SearchVector
+class SearchVec
 {
 public:
-	void searchVector(vector<vector<int>> vec, int item)
-	{
-		for (int i = 0; i < vec.size(); i++)
-		{
-			for (int j = 0; j < vec[i].size(); j++)
-			{
-				if (vec[i][j] == item)
-				{
-					cout << i << " " << j << endl;
-				}
-			}
-		}
-	}
-
-	void displayVector(vector<vector<int>> vec)
-	{
-		for (int i = 0; i < vec.size(); i++)
-		{
-			for (int j = 0; j < vec[i].size(); j++)
-			{
-				cout << vec[i][j] << " ";
-			}
-			cout << endl;
-		}
-	}
+    struct location
+    {
+        int row;
+        int col;
+    };
+    
+    vector<location> searchVector(vector<vector<int>> vec, int item)
+    {
+        location L;
+        vector<location> locations;
+        for(int i = 0; i < vec.size(); i++)
+        {
+            for(int j = 0; j < vec[i].size(); j++)
+            {
+                if(vec[i][j] == item)
+                {
+                    L.row = i;
+                    L.col = j;
+                    locations.push_back(L);
+                }
+            }
+        }
+        return locations;
+    }
+    
+    void displayVector(vector<vector<int>> vec)
+    {
+        for(int i = 0; i < vec.size(); i++)
+        {
+            for(int j = 0; j < vec[i].size(); j++)
+            {
+                cout << vec[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
 };
 
 int main()
 {
-	int item;
-	vector<vector<int>> vec{ {1,2,3,4}, {5,6,6,8,9} };
-	SearchVector searchvec;
-	
-	searchvec.displayVector(vec);
-	cout << "The item that you searched for: ";
-	cin >> item;
-	cout << "The item that you searched for can be found at the following location(s) -> " << endl;
-	searchvec.searchVector(vec, item);
-	return 0;
+    SearchVec searchvec;
+    vector<vector<int>> vec = {{1,2,2,2,3}, {4,5,6,6,6}};
+    searchvec.displayVector(vec);
+    int item;
+    cout << "Input item: ";
+    cin >> item;
+    vector<SearchVec::location> locations = searchvec.searchVector(vec,item);
+    for(auto& loc : locations)
+    {
+        cout << loc.row << " " << loc.col << endl;
+    }
+    
+    
+    return 0;
 }
